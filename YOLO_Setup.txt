@@ -8,7 +8,7 @@ yolo-py311\Scripts\activate
 pip install ultralytics opencv-python
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-py c:\github\YAMNet\yolo311.py
+py c:\github\YOLO\yolo311-frame-hd.py
 
 ----------------------------
 Python3.14を用いたCPU推論
@@ -18,9 +18,10 @@ yolo-py311\Scripts\activate
 
 pip install ultralytics opencv-python
 
-py c:\github\YAMNet\yolo314.py
+py c:\github\YOLO\yolo314.py
+py c:\github\YOLO\yolo314-frame.py
 
 ----------------------------
-(JupyterLabで認識したい場合）
+JupyterLabで認識したい場合
 pip install ipykernel
 python -m ipykernel install --user --name yolo314 --display-name "Python YOLO 3.14"
