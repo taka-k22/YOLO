@@ -1,0 +1,26 @@
+！実行前にカメラを接続すること！
+
+Python3.11を用いたGPU推論（CUDA版）
+
+py -3.11 -m venv yamnet-py311
+yolo-py311\Scripts\activate
+
+pip install ultralytics opencv-python
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+py c:\github\YAMNet\yolo311.py
+
+----------------------------
+Python3.14を用いたCPU推論
+
+py -3.14 -m venv yolo-py314
+yolo-py311\Scripts\activate
+
+pip install ultralytics opencv-python
+
+py c:\github\YAMNet\yolo314.py
+
+----------------------------
+(JupyterLabで認識したい場合）
+pip install ipykernel
+python -m ipykernel install --user --name yolo314 --display-name "Python YOLO 3.14"
