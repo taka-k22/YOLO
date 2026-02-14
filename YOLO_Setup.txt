@@ -25,3 +25,7 @@ py c:\github\YOLO\yolo314-frame.py
 JupyterLabで認識したい場合
 pip install ipykernel
 python -m ipykernel install --user --name yolo314 --display-name "Python YOLO 3.14"
+
+
+pip install flask
+py c:/github/yolo/yolo311-flask.py
