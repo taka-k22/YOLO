@@ -1,6 +1,6 @@
-import cv2
+import cv2 # type: ignore
 import time
-from ultralytics import YOLO
+from ultralytics import YOLO # type: ignore
 
 # モデル読み込み（GPU使用）
 model = YOLO("yolov8n.pt")
