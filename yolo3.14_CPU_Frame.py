@@ -1,5 +1,5 @@
-import cv2
-from ultralytics import YOLO
+import cv2 # type: ignore
+from ultralytics import YOLO # type: ignore
 
 model = YOLO("yolov8n.pt")
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)

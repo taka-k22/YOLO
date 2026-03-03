@@ -1,7 +1,7 @@
-import cv2
-from ultralytics import YOLO
-from IPython.display import display, clear_output
-import PIL.Image
+import cv2 # type: ignore
+from ultralytics import YOLO # type: ignore
+from IPython.display import display, clear_output # type: ignore
+import PIL.Image # type: ignore
 
 model = YOLO("yolov8n.pt")
 
