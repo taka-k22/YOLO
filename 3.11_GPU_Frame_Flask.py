@@ -5,10 +5,9 @@ import requests  # type: ignore
 from flask import Flask, Response  # type: ignore
 from ultralytics import YOLO  # type: ignore
 
-# 🔹 イベント送信ON/OFF
+# イベント送信ON/OFF
 EVENT_SEND_ENABLED = False   # ← False にすると送信停止
 
-# --- Flaskサーバ ---
 app = Flask(__name__)
 latest_frame = None
 
@@ -32,28 +31,24 @@ threading.Thread(target=run_server, daemon=True).start()
 
 # --- YOLO本体 ---
 model = YOLO("yolov8n.pt")
-
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-
 prev = time.time()
 
-# 🔹 追加：状態管理
 prev_state = set()
 
 
 def send_event(label):
     if not EVENT_SEND_ENABLED:
-        return  # 🔹 ここで即終了
-
+        return
     try:
         requests.post("http://localhost:3000/yolo_event",
                       json={"event": label},
                       timeout=0.2)
-        print("📡 Node送信:", label)
+        print("Node送信:", label)
     except:
-        pass  # 落ちてもYOLO止めない
+        pass
 
 
 while True:
@@ -80,7 +75,7 @@ while True:
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.7, (0, 255, 0), 2)
 
-    # 🔹 イベント検出（新しく現れた物体）
+    #  イベント検出（新しく現れた物体）
     appeared = current_state - prev_state
 
     for label in appeared:
