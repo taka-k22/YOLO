@@ -7,10 +7,12 @@ yolo-py311\Scripts\activate
 
 pip install ultralytics opencv-python
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install flask
 
 py C:/GitHub/YOLO/3.11_GPU_Frame_Flask.py
 
 ----------------------------
+
 Python3.14を用いたCPU推論
 
 py -3.14 -m venv yolo-py314
@@ -21,10 +23,19 @@ pip install ultralytics opencv-python
 py C:/GitHub/YOLO/3.14_CPU_Frame.py
 
 ----------------------------
+
 JupyterLabで認識したい場合
 pip install ipykernel
 python -m ipykernel install --user --name yolo314 --display-name "Python YOLO 3.14"
 
+----------------------------
 
-pip install flask
-py c:/github/yolo/yolo311-flask.py
+deepSORT セットアップ
+
+C:\Users\takan>py -3.11 -m venv deepsort-env
+deepsort-env\Scripts\activate
+python -m pip install --upgrade pip
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install ultralytics opencv-python
+pip install deep-sort-realtime
+pip install flask requests
