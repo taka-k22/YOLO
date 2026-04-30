@@ -6,7 +6,7 @@ import requests # type: ignore
 from flask import Flask, Response # type: ignore
 
 # イベント送信ON/OFF
-EVENT_SEND_ENABLED = True   # ← False にすると送信停止
+EVENT_SEND_ENABLED = False   # ← False にすると送信停止
 
 app = Flask(__name__)
 latest_frame = None
