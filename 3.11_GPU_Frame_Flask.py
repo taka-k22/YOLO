@@ -12,6 +12,28 @@ app = Flask(__name__)
 latest_frame = None
 
 
+@app.route("/")
+def index():
+    global latest_frame
+    status = "ready" if latest_frame is not None else "no frame"
+    return Response(
+        f"""<html><body>
+        <h1>YOLO Server</h1>
+        <p><a href=\"/snapshot\">Snapshot</a></p>
+        <p><a href=\"/status\">Status</a></p>
+        <p>Frame status: {status}</p>
+        </body></html>""",
+        mimetype="text/html")
+
+
+@app.route("/status")
+def status():
+    global latest_frame
+    if latest_frame is None:
+        return "no frame", 503
+    return "ok"
+
+
 @app.route("/snapshot")
 def snapshot():
     global latest_frame
@@ -39,15 +61,19 @@ prev = time.time()
 prev_state = set()
 
 
-def send_event(label):
+def send_event(label, action: str = "appeared"):
+    # 限定: 'person' の出現/消滅のみ外部エンドポイントへ送信
     if not EVENT_SEND_ENABLED:
         return
+    if str(label).lower() != "person":
+        return
+    payload = {"event": label, "action": action}
     try:
         requests.post("http://localhost:3000/yolo_event",
-                      json={"event": label},
+                      json=payload,
                       timeout=0.2)
-        print("Node送信:", label)
-    except:
+        print("Node送信:", payload)
+    except Exception:
         pass
 
 
@@ -80,6 +106,11 @@ while True:
 
     for label in appeared:
         send_event(label)
+
+    #  イベント検出（消滅した物体）
+    disappeared = prev_state - current_state
+    for label in disappeared:
+        send_event(label, action="disappeared")
 
     prev_state = current_state
 
