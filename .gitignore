@@ -1,0 +1,8 @@
+.venv/ 
+yolo-py314/ 
+yolo-py311/ 
+.venv/ 
+deepsort-py311/ 
+data/face_registry.json
+data/face_registry.json.tmp
+__pycache__/

@@ -1,41 +1,28 @@
-！実行前にカメラを接続すること！
-
-Python3.11を用いたGPU推論（CUDA版）
-
-py -3.11 -m venv yamnet-py311
+CUDAによるGPU推論（3.11）
+echo yolo-py311/ >> .gitignore
+py -3.11 -m venv yolo-py311
 yolo-py311\Scripts\activate
-
-pip install ultralytics opencv-python
+pip install --upgrade pip setuptools
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-pip install flask
+pip install ultralytics opencv-python Flask requests
+pip freeze > requirements.txt
 
-py C:/GitHub/YOLO/3.11_GPU_Frame_Flask.py
 
-----------------------------
-
-Python3.14を用いたCPU推論
-
+CPU推論（3.14）
+echo yolo-py314-clean/ >> .gitignore
 py -3.14 -m venv yolo-py314
 yolo-py314\Scripts\activate
+pip install --upgrade pip setuptools
+pip install ultralytics opencv-python ipython pillow
+pip freeze > requirements.txt
 
-pip install ultralytics opencv-python
 
-py C:/GitHub/YOLO/3.14_CPU_Frame.py
-
-----------------------------
-
-JupyterLabで認識したい場合
-pip install ipykernel
-python -m ipykernel install --user --name yolo314 --display-name "Python YOLO 3.14"
-
-----------------------------
-
-deepSORT セットアップ
-
-C:\Users\takan>py -3.11 -m venv deepsort-env
-deepsort-env\Scripts\activate
-python -m pip install --upgrade pip
+DeepSORT（3.11）
+echo deepsort-py311/ >> .gitignore
+py -3.11 -m venv deepsort-py311
+deepsort-py311\Scripts\activate
+pip install --upgrade pip "setuptools<81"
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-pip install ultralytics opencv-python
-pip install deep-sort-realtime
-pip install flask requests
+pip install ultralytics opencv-python Flask requests deep-sort-realtime
+pip install -r face-recognition-requirements.txt
+pip freeze > requirements.txt
