@@ -33,6 +33,9 @@ class FaceRegistryTests(unittest.TestCase):
             registry = self.make_registry(directory)
             registry.enroll("Alice", [1.0, 0.0])
             self.assertIsNone(registry.match([0.0, 1.0]))
+            nearest = registry.nearest([0.0, 1.0])
+            self.assertIsNotNone(nearest)
+            self.assertEqual(nearest.name, "Alice")
 
     def test_same_name_adds_limited_exemplars(self):
         with tempfile.TemporaryDirectory() as directory:

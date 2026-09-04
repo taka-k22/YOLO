@@ -28,26 +28,49 @@ DeepFace/SFaceのモデルファイルは初回利用時に取得されます。
 | 変数 | 既定値 | 用途 |
 |---|---:|---|
 | `VISION_EVENT_SEND_ENABLED` | `true` | Aliceへのイベント送信 |
+| `FACE_EVENT_SEND_ENABLED` | `true` | 起動時の人物・顔イベント送信状態 |
 | `VISION_EVENT_URL` | `http://localhost:3000/yolo_event` | イベント送信先 |
+| `VISION_EVENT_REQUEST_TIMEOUT_SECONDS` | `10.0` | Aliceへの1回の送信待ち時間 |
 | `VISION_HTTP_HOST` | `127.0.0.1` | HTTP APIの待受アドレス |
 | `VISION_HTTP_PORT` | `5000` | HTTP APIの待受ポート |
 | `VISION_DISPLAY_ENABLED` | `true` | OpenCVウィンドウ表示 |
 | `FACE_RECOGNITION_ENABLED` | `true` | 登録顔照合 |
 | `FACE_MODEL_NAME` | `SFace` | DeepFaceの顔認識モデル |
 | `FACE_DETECTOR_BACKEND` | `opencv` | 顔検出バックエンド |
-| `FACE_MATCH_THRESHOLD` | `0.45` | コサイン距離の一致上限 |
+| `FACE_MATCH_THRESHOLD` | `0.55` | コサイン距離の一致上限 |
 | `FACE_CONFIRMATIONS` | `2` | 認識確定に必要な連続一致数 |
+| `FACE_UNKNOWN_CONFIRMATIONS` | `5` | 未登録確定に必要な連続不一致数 |
 | `FACE_ANALYSIS_INTERVAL_SECONDS` | `1.0` | 同一トラックの顔解析間隔 |
 | `FACE_REGISTRY_PATH` | `data/face_registry.json` | 登録データ保存先 |
+| `TRACK_EVENT_STABILITY_SECONDS` | `1.5` | 顔未取得時の出現通知待ち時間 |
+| `TRACK_IDENTITY_WAIT_SECONDS` | `6.0` | 顔取得後に照合結果を待つ上限 |
 
 ## HTTP API
 
 - `GET /status`：カメラ・顔認識ワーカーの状態
+- `GET /face-events`：人物・顔イベント送信スイッチの状態
+- `POST /face-events`：人物・顔イベント送信の有効・無効を実行中に変更
 - `GET /snapshot`：Aliceに渡す生画像
 - `GET /snapshot/annotated`：IDと認識名を描画した確認画像
 - `GET /tracks`：現在のトラックと認識状態
 - `GET /faces`：登録人物一覧。顔特徴ベクトルは返しません
 - `POST /faces/enroll`：現在のトラックを登録
+
+人物・顔イベントだけを停止しても、カメラ、YOLO、DeepSORT、DeepFace、スナップショットAPIは動作を続けます。OpenCVウィンドウでは`E`キーでも切り替えられます。
+
+```powershell
+# Aliceへの人物・顔イベントを無効化
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/face-events `
+  -ContentType application/json `
+  -Body '{"enabled":false}'
+
+# 再び有効化
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5000/face-events `
+  -ContentType application/json `
+  -Body '{"enabled":true}'
+```
 
 登録例：
 

@@ -133,6 +133,13 @@ class FaceRegistry:
             ]
 
     def match(self, embedding: Iterable[float]) -> Optional[FaceMatch]:
+        best = self.nearest(embedding)
+        if best is None or best.distance > self.threshold:
+            return None
+        return best
+
+    def nearest(self, embedding: Iterable[float]) -> Optional[FaceMatch]:
+        """Return the nearest registered face even when it exceeds the threshold."""
         candidate = _normalise_embedding(embedding)
         best: Optional[FaceMatch] = None
 
@@ -153,8 +160,6 @@ class FaceRegistry:
                             threshold=self.threshold,
                         )
 
-        if best is None or best.distance > self.threshold:
-            return None
         return best
 
     def enroll(self, name: str, embedding: Iterable[float]) -> dict:
